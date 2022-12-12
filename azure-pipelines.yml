@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 trigger:
-- master
+- main
 
 pool:
   vmImage: ubuntu-latest
@@ -16,6 +16,13 @@ strategy:
       python.version: '3.7'
 
 steps:
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '$(python.version)'
